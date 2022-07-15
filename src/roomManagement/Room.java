@@ -23,7 +23,7 @@ public class Room {
     private double area;
     private int capacity;
     private Status status = Status.MAINTENANCE; // maintenance, used, booked, available
-    private String bookedBy = "";
+    private String bookedBy = null;
 
     // constructor v1.0
     public Room(String name, double length, double width) {
@@ -152,13 +152,17 @@ public class Room {
         for (Room room : roomList) {
             if (room.getId() == id) {
                 cls();
-                System.out.println("ID       : " + room.getId());
-                System.out.println("Name     : " + room.getName());
-                System.out.println("Length   : " + room.getLength() + " m");
-                System.out.println("Width    : " + room.getWidth() + " m");
-                System.out.println("Area     : " + room.getArea() + " m\u00B2");
-                System.out.println("Capacity : " + room.getCapacity() + " person");
-                System.out.println("Status   : " + room.getStatus() + "\n");
+                System.out.println("ID        : " + room.getId());
+                System.out.println("Name      : " + room.getName());
+                System.out.println("Length    : " + room.getLength() + " m");
+                System.out.println("Width     : " + room.getWidth() + " m");
+                System.out.println("Area      : " + room.getArea() + " m\u00B2");
+                System.out.println("Capacity  : " + room.getCapacity() + " person");
+                System.out.println("Status    : " + room.getStatus());
+                if (room.getBookedBy() != null) {
+                    System.out.println("Booked by : " + room.getBookedBy());
+                }
+                System.out.println();
                 isExists = true;
             }
         }
@@ -222,11 +226,12 @@ public class Room {
                                 System.out.print("Your input: ");
                                 String status = sc.next();
                                 room.setStatus(status);
-                                if (status == "3") {
+                                if (status.equals("3")) {
                                     System.out.print("By: ");
                                     String by = sc.next();
                                     by += sc.nextLine();
                                     room.setBookedBy(by);
+                                    System.out.println();
                                 }
                                 break;
                             case "E":
