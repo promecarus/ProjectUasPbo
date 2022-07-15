@@ -3,15 +3,16 @@ package roomRecord;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static userInterface.Terminal.tableHeader;
+import static userInterface.Terminal.cls;
 
 public class Record {
 
     private int Id_person;
     private String name_person;
     private String description;
-    // private String[] recordColumnTable = { "ID, Name, Description" };
 
     private static ArrayList<Record> record_list = new ArrayList<>();
     public static Scanner input = new Scanner(System.in);
@@ -27,7 +28,6 @@ public class Record {
         this.Id_person = newId;
         this.name_person = newName;
         this.description = newDesc;
-        record_list.add(this);
     }
 
     public String getNamePerson() {
@@ -55,22 +55,28 @@ public class Record {
     }
 
     public static void removeRecordByName() {
-        System.out.print("Choose Name Person to be deleted : ");
+        System.out.print("Choose Person Name to be deleted : ");
         String name = input.next();
         for (Record Person : record_list) {
             if (Person.getNamePerson().equals(name)) {
                 record_list.remove(Person);
+            } 
+            else{
+                System.out.println("Person Name Iin'\' on the Record");
             }
         }
     }
 
-    public static void removeAllRecord(){
+    public static void removeAllRecord() {
         record_list.clear();
     }
 
     public static void dateRecord() {
         LocalDate date = LocalDate.now();
-        System.out.println(date);
+        DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+
+        String formattedDate = date.format(formatDate);
+        System.out.println(formatDate);
     }
 
     public static void displayRecord() {
@@ -91,6 +97,7 @@ public class Record {
             System.out.print("[1] Add Record\n [2] Show all List\n [3] Remove Record\n Your option: ");
             int option = Integer.parseInt(input.next());
 
+            cls();
             switch (option) {
                 case 1:
                     addRecord();
@@ -112,9 +119,3 @@ public class Record {
         Menu();
     }
 }
-
-// class lecturer extends Person {
-// public lecturer(int id, String name, String desc) {
-// super(id, name, desc);
-// }
-// }

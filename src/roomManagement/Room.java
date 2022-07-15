@@ -24,10 +24,10 @@ public class Room {
     private double width;
     private double height = 0;
     private double area;
-    public double volume;
+    private double volume;
     private int capacity;
     private String furniture = null;
-    private Status status = Status.Available; // Maintenance, Used, Booked, Available
+    private Status status = Status.Available;
     private String BookedBy = null;
 
     // constructor v1.0
@@ -124,6 +124,14 @@ public class Room {
         return area * height;
     }
 
+    public int getPembagi() {
+        return 2;
+    }
+
+    public void setCapacity(double area, int pembagi) {
+        this.capacity = (int) area / pembagi;
+    }
+
     public int getCapacity() {
         return this.capacity;
     }
@@ -133,10 +141,16 @@ public class Room {
     }
 
     public String getFurniture() {
-        return this.furniture;
+        String result = "";
+        if (this.furniture == null) {
+            result = "-";
+        } else {
+            result = this.furniture;
+        }
+        return result;
     }
 
-    // set room status => Maintenance, Used, Booked, Available
+    // set room status => maintenance, available, booked, used
     public void setStatus(String status) {
         switch (status) {
             case "1":
@@ -221,7 +235,7 @@ public class Room {
                         System.out.println("Volume    : " + room.getVolume() + " m\u00B3");
                     }
                     System.out.println("Capacity  : " + room.getCapacity() + " person");
-                    if(room.getSpecified() != null && room.getFurniture() != null) {
+                    if (room.getSpecified() != null && room.getFurniture() != null) {
                         System.out.println("Furniture : " + room.getFurniture());
                     }
                     System.out.println("Status    : " + room.getStatus());
@@ -241,14 +255,14 @@ public class Room {
         if (noRoomGuard()) {
             return;
         } else {
-            String line = "+-----+------------------------+-----------+-------------+-------------+----------------+%n",
-                    content = "| ID  | Name                   | Specified | Area        | Status      | Capacity       |%n";
+            String line = "+-----+------------------------+-----------+-------------+-------------+----------------+---------------+%n",
+                    content = "| ID  | Name                   | Specified | Area        | Status      | Capacity       | Furniture     |%n";
             tableHeader(line, content);
-            String leftAlignFormat = "| %-3s | %-22s | %-9s | %-11s | %-11s | %-14s |%n";
+            String leftAlignFormat = "| %-3s | %-22s | %-9s | %-11s | %-11s | %-14s | %-13s |%n";
             for (Room room : roomList) {
                 System.out.format(leftAlignFormat, room.getId(), room.getName(), room.getSpecified(),
                         room.getArea() + "m\u00B2",
-                        room.getStatus(), room.getCapacity() + " person");
+                        room.getStatus(), room.getCapacity() + " person", room.getFurniture());
             }
             System.out.format(line);
             System.out.println();
@@ -300,11 +314,18 @@ public class Room {
                                 System.out.print("Your input: ");
                                 String status = sc.next();
                                 room.setStatus(status);
-                                if (status.equals("3")) {
-                                    System.out.print("By: ");
-                                    String by = sc.next();
-                                    room.setBookedBy(by);
-                                    System.out.println();
+                                switch (status) {
+                                    case "2":
+                                        room.setBookedBy(null);
+                                        break;
+                                    case "3":
+                                        System.out.print("By: ");
+                                        String by = sc.next();
+                                        room.setBookedBy(by);
+                                        System.out.println();
+                                    default:
+                                        System.out.println("Invalid option\n");
+                                        break;
                                 }
                                 break;
                             case "5":
@@ -313,19 +334,28 @@ public class Room {
                                 if (specified == 1) {
                                     System.out.print("Height : ");
                                     double height = sc.nextDouble();
+                                    System.out.print("Furniture : ");
+                                    String furniture = sc.next();
+                                    furniture += sc.nextLine();
+
                                     // room.specifiedIndoor(room, height);
+
                                     // Indoor temp = new Indoor(room.getId(), room.getName(), room.getLength(),
                                     // room.getWidth(), height);
                                     // room.setHeight(temp.getHeight());
                                     // room.setVolume(temp.getVolume());
+
                                     room.setSpecified("Indoor");
+                                    room.setFurniture(furniture);
                                     room.setHeight(height);
                                     room.setVolume(room.getVolume(room.getArea(), height));
                                 } else if (specified == 2) {
                                     System.out.print("Furniture : ");
                                     String furniture = sc.next();
                                     furniture += sc.nextLine();
+
                                     // room.specifiedOutdoor(room, furniture);
+
                                     room.setSpecified("Outdoor");
                                     room.setFurniture(furniture);
                                 } else {
@@ -341,6 +371,7 @@ public class Room {
                                 break;
                         }
                         room.setArea(room.getLength(), room.getWidth());
+                        room.setCapacity(room.getArea(), room.getPembagi());
                     }
                 }
             }
@@ -352,7 +383,6 @@ public class Room {
         if (noRoomGuard()) {
             return;
         } else {
-
             boolean isExists = false;
             System.out.print("Choose a room ID to be deleted: ");
             int id = Integer.parseInt(sc.next());

@@ -26,10 +26,10 @@ public class Indoor extends roomManagement.Room {
     // this.volume = super.getArea() * this.height;
     // }
     // private double getHeight() {
-    //     return height;
+    // return height;
     // }
 
-     public double getRoomVolume() {
+    public double getRoomVolume() {
         return this.volume;
     }
 }
