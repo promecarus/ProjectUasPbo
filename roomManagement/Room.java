@@ -8,7 +8,11 @@ import static userInterface.Terminal.tableHeader;
 
 public class Room {
     private static ArrayList<Room> roomList = new ArrayList<>();
-    private enum Status { MAINTENANCE, AVAILABLE, BOOKED, USED }
+
+    private enum Status {
+        MAINTENANCE, AVAILABLE, BOOKED, USED
+    }
+
     public static Scanner sc = new Scanner(System.in);
     private static int counter = 1;
 
@@ -19,6 +23,7 @@ public class Room {
     private double area;
     private int capacity;
     private Status status = Status.MAINTENANCE; // maintenance, used, booked, available
+    private String bookedBy = "";
 
     // constructor v1.0
     public Room(String name, double length, double width) {
@@ -31,7 +36,7 @@ public class Room {
         roomList.add(this);
         counter++;
     }
-    
+
     // constructor v2.0
     public Room(double length, double width) {
         this.id = counter;
@@ -45,22 +50,37 @@ public class Room {
     }
 
     // setter & getter
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
+
     public String getName() {
         return this.name;
     }
 
-    public void setLength(double length) { this.length = length; }
-//    public void setLength(String length) { this.length = Double.parseDouble(length); }
-    public double getLength() { return length; }
+    public void setLength(double length) {
+        this.length = length;
+    }
 
-    public void setWidth(double width) { this.width = width; }
-//    public void setWidth(String width) { this.length = Double.parseDouble(width); }
-    public double getWidth() { return width; }
+    // public void setLength(String length) { this.length =
+    // Double.parseDouble(length); }
+    public double getLength() {
+        return length;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    // public void setWidth(String width) { this.length = Double.parseDouble(width);
+    // }
+    public double getWidth() {
+        return width;
+    }
 
     public double getArea() {
         return this.area;
@@ -90,20 +110,29 @@ public class Room {
                 break;
         }
     }
+
     public Status getStatus() {
         return this.status;
     }
 
-//    add
+    public String getBookedBy() {
+        return bookedBy;
+    }
+
+    public void setBookedBy(String bookedBy) {
+        this.bookedBy = bookedBy;
+    }
+
+    // add
     public static void add() {
-        System.out.print("Add new room\nName  : ");
+        System.out.print("Add new room\nName   : ");
         String name = sc.next();
         name += sc.nextLine();
 
-                    System.out.print("Length: ");
+        System.out.print("Length : ");
         int length = Integer.parseInt(sc.next());
 
-        System.out.print("Width : ");
+        System.out.print("Width  : ");
         int width = Integer.parseInt(sc.next());
 
         System.out.println();
@@ -129,7 +158,7 @@ public class Room {
                 System.out.println("Width    : " + room.getWidth() + " m");
                 System.out.println("Area     : " + room.getArea() + " m\u00B2");
                 System.out.println("Capacity : " + room.getCapacity() + " person");
-                System.out.println("Status   : " + room.getStatus() +"\n");
+                System.out.println("Status   : " + room.getStatus() + "\n");
                 isExists = true;
             }
         }
@@ -137,12 +166,13 @@ public class Room {
     }
 
     public static void showList() {
-        String            line = "+-----+------------------------+-------------+-------------+----------------+%n",
+        String line = "+-----+------------------------+-------------+-------------+----------------+%n",
                 content = "| ID  | Name                   | Area        | Status      | Capacity       |%n";
         tableHeader(line, content);
         String leftAlignFormat = "| %-3s | %-22s | %-11s | %-11s | %-14s |%n";
         for (Room room : roomList) {
-            System.out.format(leftAlignFormat, room.getId(), room.getName(), room.getArea() + "m\u00B2", room.getStatus(), room.getCapacity() + " person");
+            System.out.format(leftAlignFormat, room.getId(), room.getName(), room.getArea() + "m\u00B2",
+                    room.getStatus(), room.getCapacity() + " person");
         }
         System.out.format(line);
         System.out.println();
@@ -155,13 +185,12 @@ public class Room {
             boolean isExists = false;
             System.out.print("Choose a room ID to be modified: ");
             int id = Integer.parseInt(sc.next());
-            
+
             for (Room room : roomList) {
                 if (room.getId() == id) {
-                    boolean closemodifyRoomByName = false;
+                    boolean closeModifyRoomByName = false;
                     isExists = true;
-                    while (closemodifyRoomByName != true) {
-                        cls();
+                    while (closeModifyRoomByName != true) {
                         System.out.print(
                                 "Room attributes:\n[1] Name\n[2] Length\n[3] Width\n[4] Status\n[E] Exit\nWhich attribute do you want to change?: ");
                         String modifyOptionInput = sc.next();
@@ -184,17 +213,24 @@ public class Room {
                                 room.setWidth(width);
                                 break;
                             case "4":
-                                System.out.println("Change from \"" + room.getWidth() + "\" to ");
+                                System.out.println("Change from \"" + room.getStatus() + "\" to ");
                                 int i = 1;
                                 for (Status info : EnumSet.allOf(Status.class)) {
                                     System.out.println("[" + i + "] " + info);
                                     i++;
                                 }
+                                System.out.print("Your input: ");
                                 String status = sc.next();
                                 room.setStatus(status);
+                                if (status == "3") {
+                                    System.out.print("By: ");
+                                    String by = sc.next();
+                                    by += sc.nextLine();
+                                    room.setBookedBy(by);
+                                }
                                 break;
                             case "E":
-                                closemodifyRoomByName = true;
+                                closeModifyRoomByName = true;
                                 break;
                             default:
                                 System.out.println("Invalid option\n");
@@ -224,6 +260,7 @@ public class Room {
             isRoomExists(isExists);
         }
     }
+
     private static void isRoomExists(boolean exists) {
         if (!exists) {
             cls();

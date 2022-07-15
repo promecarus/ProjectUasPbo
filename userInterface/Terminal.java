@@ -18,7 +18,7 @@ public class Terminal {
         Room.add("Ruang default 2", 100, 100);
         boolean closeRoomMenu = false;
         while (closeRoomMenu != true) {
-            System.out.print("Room menu:\n[1] Add new room\n[2] Show a room\n[3] Show all room\n[4] Modify a room\n[5] Remove a room\n[6] Remove all room\n[E] Exit\nYour option: ");
+            System.out.print("Room menu:\n[1] Add new room\n[2] Show a room\n[3] Show all room\n[4] Modify a room\n[5] Remove a room\n[6] Remove all room\n[E] Exit\nYour input: ");
             String optionInputRoomMenu = sc.next();
             cls();
             switch (optionInputRoomMenu) {
@@ -42,7 +42,7 @@ public class Terminal {
                     closeRoomMenu = true;
                     break;
                 default:
-                    System.out.println("Invalid option\n");
+                    System.out.println("Invalid input\n");
                     break;
             }
         }
