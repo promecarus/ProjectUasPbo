@@ -1,27 +1,35 @@
 package roomManagement;
 
-public class Indoor extends Room {
-    private double z_width;
+public class Indoor extends roomManagement.Room {
+    private static int counter = 1;
+
+    private double height;
     private double volume;
 
-    public Indoor(String name, double firstWidth, double secondWidth, double thirdWidth) {
-        super(name, firstWidth, secondWidth);
-        this.z_width = thirdWidth;
-        this.volume = super.getArea() * this.z_width;
+    // public Indoor(int id, String name, double length, double width, double
+    // height) {
+    // super(id, name, length, width);
+    // this.height = height;
+    // this.volume = super.getArea() * this.height;
+    // }
+
+    public Indoor(int id, String name, double length, double width, double height) {
+        super(counter, name, length, width);
+        this.height = height;
+        this.volume = super.getArea() * this.height;
+        counter++;
     }
 
-    public Indoor(int firstWidth, int secondWidth, int thirdWidth) {
-        super(firstWidth, secondWidth);
-        this.z_width = thirdWidth;
-        this.volume = super.getArea() * this.z_width;
-    }
+    // public Indoor(double length, double width, double height) {
+    // super(length, width);
+    // this.height = height;
+    // this.volume = super.getArea() * this.height;
+    // }
+    // private double getHeight() {
+    //     return height;
+    // }
 
-//    @Override
-//    public void showDetails() {
-//        System.out.println("Room Name   : " + super.getName());
-//        System.out.println("Room Area   : " + super.getArea() + " m^2");
-//        System.out.println("Room Volume : " + this.volume + " m^3");
-//        System.out.println("Room Status : " + super.getStatus());
-//        System.out.println("Room Capacity : " + super.getCapacity() + " Person");
-//    }
+     public double getRoomVolume() {
+        return this.volume;
+    }
 }

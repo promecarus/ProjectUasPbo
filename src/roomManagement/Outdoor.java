@@ -1,12 +1,7 @@
 package roomManagement;
 
-public class Outdoor extends Room {
-    public Outdoor(String name, int firstWidth, int secondWidth) {
-        super(name, firstWidth, secondWidth);
+public class Outdoor extends roomManagement.Room {
+    public Outdoor(int id, String name, double length, double width, double height) {
+        super(id, name, length, width);
     }
-
-    // @Override
-    // public display(){
-
-    // }
 }
