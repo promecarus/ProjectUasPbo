@@ -1,6 +1,5 @@
 package roomManagement;
-
-import roomManagement.Indoor;
+// import roomManagement.Indoor;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -222,6 +221,9 @@ public class Room {
                         System.out.println("Volume    : " + room.getVolume() + " m\u00B3");
                     }
                     System.out.println("Capacity  : " + room.getCapacity() + " person");
+                    if(room.getSpecified() != null && room.getFurniture() != null) {
+                        System.out.println("Furniture : " + room.getFurniture());
+                    }
                     System.out.println("Status    : " + room.getStatus());
                     if (room.getBookedBy() != null) {
                         System.out.println("Booked by : " + room.getBookedBy());

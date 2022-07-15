@@ -3,7 +3,7 @@ package userInterface;
 import java.util.Scanner;
 
 import roomManagement.Room;
-import appAccess.User;
+// import appAccess.User;
 
 public class Terminal {
 
